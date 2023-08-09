@@ -1,4 +1,3 @@
-![image](https://github.com/sitodav/sito_schedulables/assets/9033283/1c40a2b5-aadd-45f1-95de-79bcadf05f25)
 # Sito-Schedulables
 
 This documentation is still a work in progress. 
@@ -27,13 +26,13 @@ I will update/add more details as time goes by, so I am sorry if I am missing so
 
 ## > Introduction
 
-A remote tasks composition/scheduling engine for microservices.
+A remote tasks composition/scheduling engine for (REST APIs exposing) microservices.
 
 This demo shows the use of task composition, orchestration, and remote scheduling  for distributed systems.
 
 The code is intended to be added *on top of already existing codebase*, with small interventions on its part, when you want to be able to create
 dependencies between the microservices operations, in a schedulable and asynchronous manner.
-a ta
+
 Imagine that you have several operations (on different microservices or the same microservice and different APIs) and you want to couple them, in a scheduled manner
 (start the next when one or more of the previous are completed, commit only when all are completed with success, stop everything and rollback when there is an error, and so on...). 
 You deploy the orchestrator microservice (and the dashboard if you want), and you can orchestrate your existing code base with minimal additional effort.
@@ -939,7 +938,7 @@ There are several different status for a task/node:
 * **COMPLETED_ERROR**: task that failed. All its children will be stopped. (**red**)
 * **COMPLETED_SUCCESS_ROLLEDBACK**: task that originally completed with success, but had to rollback because some other task in the group failed/was stopped. (**red**)
 
-When the scheduling date (for the roots) will be reached, the first tasks will start running
+When the scheduling date (for the roots) are reached, the first tasks will start running
 
 ![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard14.jpg "Optional title") 
 
@@ -954,6 +953,8 @@ And at some point will be completed
 ![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard13.jpg "Optional title") 
 
 **If a task is stopped, you can restart it (if possible) using the restart button on the task row (in the table)**
+
+You can delete a whole group by clicking on the **delete** button on the group row (if one or more tasks in the group are running, they are stopped/rolledback first).
 
 
 -----------------------------------------------------------------------------------
