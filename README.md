@@ -1,7 +1,20 @@
 # Sito-Schedulables
 
+Sito-Schedulable is a native library for creating and handling distributed (agnostic) transactions on microservices written in java and Spring Boot.
+
 This documentation is still a work in progress. 
-I will update/add more details as time goes by, so I am sorry if I am missing some information, or failing to give the proper explanation, but for now, it's intended  more like a README than a technical paper.
+
+I will update/add more details as time goes by, so I am sorry if I am missing some information, or failing to give the proper explanation, but for now, it's intended  more like an introductory README than a technical paper.
+
+This demo uses a very simple set of orchestrated (two) microservices (Foo, Bar style).
+
+If you want a more concrete/real example, visit: 
+
+https://github.com/sitodav/schedulables_usecase_documentationonly (here you will find the code and the link to a video for the use case).
+
+But if you want to understand how to library/system works, keep reading **here**
+
+*(it's advised that you consult the more complex example, linked above, once you got a graps of how things work, using the documentation in this repository !)*
 
 
 -----------------------------------------------------------------------------------
