@@ -10,7 +10,7 @@ This demo uses a very simple set of orchestrated (two) microservices (Foo, Bar s
 
 If you want a more concrete/real example, visit: 
 
-https://github.com/sitodav/schedulables_usecase_documentationonly (here you will find the code and the link to a video for the use case).
+https://github.com/sitodav/schedulables_usecase (here you will find the code and the link to a video for the use case).
 
 But if you want to understand how to library/system works, keep reading **here**
 
@@ -27,12 +27,13 @@ But if you want to understand how to library/system works, keep reading **here**
 4. [Running the demo](#-running-the-demo)
 5. [Distributed Commit limitations](#-distributed-commit-1-c-and-its-limitations)
 6. [Output-Input Join limitations](#-output-as-input-and-its-limitations)
-7. [Rest APIs examples](#payload-explanation-for-rest-api-examples-using-swagger-ui)
-8. [Orchestrator Dashboard examples](#via-dashboard-orchestrator-and-how-it-works--the-angular-front-end-application)
-9. [Task Status](#task-status)
-10. [How to install the library](#how-to-install-the-library-for-a-microservices-architecture-of-spring-projects)
-11. [How the system works](#how-the-system-works)
-
+7. [Rest APIs examples](#-payload-explanation-for-rest-api-examples-using-swagger-ui)
+8. [Orchestrator Dashboard examples](#-dashboard-orchestrator-and-how-it-works--the-angular-front-end-application)
+9. [Task Status](#-task-status)
+10. [Using Favorites](#-using-favorites)
+11. [How to install the library](#-how-to-install-the-library)
+12. [How the system works](#-how-the-system-works)
+    
 
 -----------------------------------------------------------------------------------
 
@@ -62,20 +63,22 @@ This are the snapshot of a system that uses this library:
 
 The orchestrator will take the payloads for the normal existing operations (plus some parameters to control the dependencies) and will create a scheduled batch of executions.
 
+You can set the batch to be start in a given time (in the future) or on demand (manually)
+
 The orchestrator exposes a swagger GUI for controlling (start, stop, restart...) orchestrated tasks.
 There is a dashboard, written and deployed as angular application, that allows you to keep everything under control in a more user-friendly way.
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/img2.png "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/img2.png "Optional title")
 
 You can create a new orchestration of multiple tasks (distributed on different microservices or on the same one),
 control the tasks' dependencies/status and stop the whole orchestration via REST APIs or the front end (like provided in the showcase ).
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/img.png "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/img.png "Optional title")
 
 The angular front end shows, among other things, the trees for dependency hierarchy.
 The trees are rendered using a custom typescript library (sito-tree : https://github.com/sitodav/sito_tree_lib )
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/tree1.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/tree1.jpg "Optional title")
   
 Every task can be dependent on one or more tasks (this creates the computational/dependency tree).
 The dependent tasks will start only if (and after) the dependencies are completed with success.
@@ -195,7 +198,7 @@ SCHDL_METADATA_ORCHESTRATOR_ROOT_NODES, SCHDL_METADATA_ORCHESTRATOR_TASKS_DEPEND
  
 Here you can see what are the information provided to the orchestrator, about the microservices/tasks to orchestrate, in the application-loc.yml:
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/yml.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/yml.jpg "Optional title")
 
 We are telling that there are 4 different task types.
 Every task type has a name (taskType) and is mapped on a given controller on the destination.
@@ -375,7 +378,7 @@ By installing this library you add the */schedule* endpoints under each controll
 So let's start by contacting , using Swagger-UI, the rest api for */bar* : it's a REST endpoint that simply tasks a string as *bar parameter* (POST body) and returns nothing of relevance (just a fixed string message).
 This is the simple , synchronous call to the API (as they were intended to work on the original system).
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/msA_barnores_plain.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/msA_barnores_plain.jpg "Optional title")
 
 As you see, the API returns almost immediately (it's blocking and synchronous).
 
@@ -404,11 +407,11 @@ To do so we contact the original endpoint, but adding **/schedule** at the end o
 
 This is the payload new for the */bar/scheduled* API endpoint:
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/msA_barnores_scheduled.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/msA_barnores_scheduled.jpg "Optional title")
 
 And the results contains info about the *programmed* task.
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/msA_barnores_result_scheduled.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/msA_barnores_result_scheduled.jpg "Optional title")
 
 Now the task is programmed to be executed for the specified date, and once the /schedule endpoint returns it hasn't been executed yet!
 
@@ -416,7 +419,7 @@ We can do the same thing with the other two endpoints : */bar_with_result/schedu
 
 Now let's use the *Schedulable-Operation APIs*: they will give us control on task life-cycle (deletion, stop, date update etc...)
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/msA_schedulableOperationApi.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/msA_schedulableOperationApi.jpg "Optional title")
 
 As you can see in the screenshot you have several REST endpoints. The names on the right (for the methods) are quite self explanatory.
 
@@ -446,7 +449,7 @@ So, now that we know how to schedule (for the future) the various API endpoints 
 
 The Orchestrator microservice (once started) exposes two groups of REST APIs:
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/orchestrator_api.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/orchestrator_api.jpg "Optional title")
 
 The *Callback APIs* are not intended to be called directly: they are used from the *orchestrated microservices* (in this case *microserviceA* and *microserviceB*).
 
@@ -454,7 +457,7 @@ The *Callback APIs* are not intended to be called directly: they are used from t
 
 Here you can see the list of endpoints:
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/orchestrator_api_taskcomposer.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/orchestrator_api_taskcomposer.jpg "Optional title")
 
 As before, reading the names on the right will be quite self-explanatory.
 
@@ -465,6 +468,7 @@ As before, reading the names on the right will be quite self-explanatory.
 * **When you create a *tasks-composition* you can define one or more *ROOT* (and you will have one or more *TREEs*) -> this is a GROUP (synonym for task-composition)**
 * **The different *TREEs* in a *GROUP* (that start from different *ROOTs*) , are executed in parallel, because they do not share common *ROOTs* (or common paths on a *TREE*)**
 * **When you create a task composition, you have to specify only the *SCHEDULING DATES* for the roots: when the date is reached for every root, its execution will start. Once the root execution is finished, the next (one or more) dependent task will start, and so on, until all the tasks in a tree are executed.**
+* **IMPORTANT: if you want to create an orchestration, NOT to be started some time in the future, but to be started MANUALLY, just create an orchestration without specifing programmedAt dates for the roots. This way the orchestration will be created but it won't have any starting date atteched. When you want to manually start it, just stop/restart the roots , and the whole orchestration will start**
 * **If you enable *Distributed Commit (1-C)* this will cover all the trees in a group at the same time (this means that if one tree fails, even the other trees will fail too**
 
 Using these APIs you can:
@@ -824,7 +828,10 @@ Now it's time to compose a group using tasks with results. These results will be
 The rest of APIs are quite self explanatory (like stop of a group etc). We won't show their use via REST (Swagger-UI) calls, but we will use the dashboard for this.
 
 
-### Via Dashboard Orchestrator (and how it works) : the Angular Front End Application ###
+-----------------------------------------------------------------------------------
+
+
+## > Dashboard Orchestrator (and how it works) : the Angular Front End Application ##
 
 Until now we interacted with the orchestrator using the UI provided by *Swagger(UI)*.
 
@@ -840,23 +847,23 @@ The *dashboard application* is composed of two main views:
 ----------
 *How the **task-creation** view works*.
 
-If you start the front end, with default configuration you can go to ***http://localhost:4200/dashboard***![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/groupcomposition.jpg "Optional title") and you will be presented with an empty dashboard (if you have not created anything using the orchestrator APIs yet) .
+If you start the front end, with default configuration you can go to ***http://localhost:4200/dashboard***![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/groupcomposition.jpg "Optional title") and you will be presented with an empty dashboard (if you have not created anything using the orchestrator APIs yet) .
 
 Let's go to the group composition view by clicking the right (second) button on the upper left corner (or you can go to http:**//localhost:4200/taskCreation**) 
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/groupcomposition.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/groupcomposition.jpg "Optional title")
 
 This is what you will see 
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard2.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard2.jpg "Optional title")
 
 On the right you can choose (from the dropdown ) what *task type* you want to add to the *group*.
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard3.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard3.jpg "Optional title")
 
 The dashboard box (under the task type dropdown) will be populated with a valid json payload **according to the selected task type* : in this example we selected the type *MICROSERVICEB_ALPHA_NO_RESULT* so in the json we will have the *alpha* string parameter.
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard4.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard4.jpg "Optional title")
 
 On top of the native parameters (every task type has its own) you will get : *distributedCommit*, *forwardResult* and *readForwardResult*.
 
@@ -866,7 +873,7 @@ When you have defined your json, you click *Add* .
 
 The task will be added to the group, and you will see this:
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard5.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard5.jpg "Optional title")
 
 As you can see the table in the middle show what task you have added.
 
@@ -880,7 +887,7 @@ In the table you can click on a selected task to remove it (all its dependent ch
 
 Let's try to add more tasks.
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard6.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard6.jpg "Optional title")
 
 As you can see, now we have a total of 3 tasks.
 
@@ -888,7 +895,7 @@ But they are not in a tree form: this means that they are all roots (so we have 
 
 Let's say that one of the task must depend on another : **just drag a node and drop it on the task you want it to depend on** (if you drag X on Y , X will depend on Y and you will have Y->X)
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard7.jpg "Optional title")
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard7.jpg "Optional title")
 
 As you can see now we have created a *cluster* (a tree of connected nodes/tasks: they will share the **same color**)
 
@@ -898,7 +905,7 @@ If you click **Next** (on the bottom of the page) you will reach the final stage
 
 In out case, we only had 3 tasks, with two roots , so we will have to define starting date for just two (root) tasks:
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard8.jpg "Optional title") 
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard8.jpg "Optional title") 
 
 On the right side of the recap page you will see the **whole json payload** that will be sent to the orchestrator API backend (just like we did in the Swagger-UI orchestrator example).
 
@@ -913,7 +920,7 @@ Once you click save you will be redirected to the other view (the main landing *
 
 Now that we created a task group via task-creation view, our main dashboard view will be populated.
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard9.jpg "Optional title") 
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard9.jpg "Optional title") 
 
 In the upper table/list you can see all the created group (just one for now).
 
@@ -923,11 +930,11 @@ The third view (accordion) will show you the graphical tree for that group.
 
 You can select a task (both on the list and on the tree) and it will be highlighted.
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard10.jpg "Optional title") 
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard10.jpg "Optional title") 
 
 Selecting a task will give you (in the last section/accordion) the body detailed information for the payload of the task and the tree representation only for the task and its children (the *subpath*)
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard11.jpg "Optional title") 
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard11.jpg "Optional title") 
 
 For each group the **percentage of completion** is shown.
 
@@ -935,11 +942,15 @@ The same goes for each task percentage of completion.
 
 You can **enable highlighting (on the second table) of fathers and children of a given tasks** (*blue arrow* means father and *red arrow* means children).
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard12.jpg "Optional title") 
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard12.jpg "Optional title") 
 
 **The status and nodes colors (on the graphical tree) represents task status.**
 
-#### Task Status
+
+-----------------------------------------------------------------------------------
+
+
+## > Task Status
 There are several different status for a task/node:
 
 * **CREATED**: a task created, waiting for its scheduling date so be reached (**grey**)
@@ -953,17 +964,17 @@ There are several different status for a task/node:
 
 When the scheduling date (for the roots) are reached, the first tasks will start running
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard14.jpg "Optional title") 
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard14.jpg "Optional title") 
 
 And at some point will be completed
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard15.jpg "Optional title") 
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard15.jpg "Optional title") 
 
 
 **You can stop (BEFORE COMPLETION) a whole group (using the stop button for a given group on the first table, the *groups list*) and this will stop all the running tasks for a group.**
 **Or you can stop just a single task in a group (and this will stop only the task and its descendents).**
 
-![img](https://github.com/sitodav/sito_schedulables_documentationonly/blob/develop/images/dashboard13.jpg "Optional title") 
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/dashboard13.jpg "Optional title") 
 
 **If a task is stopped, you can restart it (if possible) using the restart button on the task row (in the table)**
 
@@ -973,7 +984,44 @@ You can delete a whole group by clicking on the **delete** button on the group r
 -----------------------------------------------------------------------------------
 
 
-## > How to install the library for a microservices architecture of spring projects
+## > Using Favorites
+
+Usually, a group of orchestrated tasks is something you want to reuse.
+
+You can create the tasks, set the dependencies and save the template for future multiple uses.
+
+To do so, create the task in the *task creation* tab, as shown before.
+
+Click next to go in the confirmation view.
+
+In the new version there is a new button **Favorite** , at the bottom, next to the Save/Send Group Button (this was renamed in the last version): this allows you to save the whole orchestration payload as a blueprint.
+
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/fav1.jpg "Optional title") 
+
+
+
+Once done, if you go in the new tab called **Favorites** **(this tab was not present in the previous screen based on a previous version)**
+
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/fav2.jpg "Optional title") 
+
+
+
+you will see your favorite templates
+
+![img](https://github.com/sitodav/sito_schedulables/blob/develop/images/fav3.jpg "Optional title") 
+
+
+
+**You can add a favorite to the dashboard with the button on the right (or remove it) and it will appear in the  main deck to be started**
+
+
+
+-----------------------------------------------------------------------------------
+
+
+## > How to install the library
+
+The library is intended to be installed on a set of Spring Boot Microservices, that uses REST APIs to expose their operations.
 
 
 ### On the microservices you want to orchestrate ###
@@ -1041,7 +1089,7 @@ The orchestrator will allow you to send dto payloads, with the task type, and mu
 -----------------------------------------------------------------------------------
 
 
-## How the system works ##
+## > How the system works ##
 
 *TODO (generated tables explanation, column explanation, task status, diagram and explanation, adding 1-C and input/output)*
 
