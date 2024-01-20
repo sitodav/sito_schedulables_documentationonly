@@ -10,7 +10,7 @@ This demo uses a very simple set of orchestrated (two) microservices (Foo, Bar s
 
 If you want a more concrete/real example, visit: 
 
-https://github.com/sitodav/schedulables_usecase (here you will find the code and the link to a video for the use case).
+https://github.com/sitodav/schedulables_usecase_documentationonly (here you will find the code and the link to a video for the use case).
 
 But if you want to understand how to library/system works, keep reading **here**
 
